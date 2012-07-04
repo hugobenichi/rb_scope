@@ -1,0 +1,26 @@
+##
+ #              ni_scope
+ #
+ #     ( C2Ruby wrapper to NI-Scope drivers )
+ #    
+ #  version     2.0.1
+ #  author      hugo benichi
+ #  email       hugo.benichi@m4x.org
+ #  copyright   2012 hugo benichi
+ #  
+ #  reproduction 
+ #  
+ #    You can use this code without restriction if you mention my name in your project.
+ #    Other than that, you can redistribute and/or modify without restriction.
+ #  
+ #  description 
+ #  
+ #    A Ruby layer wrapping around C calls to the NI-Scope drivers.
+ #    Most C data manipulation and C calls are done through the FFI gems.
+ #	  In addition a few C methods are provided for improved efficiency when handling data
+ #
+ #  installation
+ #
+ #    gem install ni_scope-x.y.z.gem
+ #
+ ##
