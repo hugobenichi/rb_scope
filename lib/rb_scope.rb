@@ -17,8 +17,6 @@
 
 # main namespace module which encapsulates the helper methods and wrappring API calls
 module RbScope
-  
-  # <TO_DO> all addressedd from conf file / NiScope to auto-detect them ?
 
   class << self
 
@@ -29,6 +27,7 @@ module RbScope
 
   end
 
+  # load every required components
   [
     'rb_scope/api',
     'rb_scope/fetch',

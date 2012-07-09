@@ -11,7 +11,7 @@ module RbScope
 
       Hash.new.tap{ |pairs|   
         File.open(File.dirname(__FILE__) + '/niScope_pairs.const', 'r').readlines.tap do |lines|
-          pairs[lines.shift] = lines.shift until lines.empty? #good 2 shift order
+          pairs[lines.shift] = lines.shift until lines.empty? # good 2 shift order
         end     
       }.each do |k,v|
         begin

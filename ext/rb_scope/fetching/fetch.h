@@ -20,10 +20,8 @@
     {
 	    char*				      address;        // physical address of the device
       error_handler     err_clbck;      // ruby callback to manage errors
-      buffer_address    chan0;          // return the address of the next 
-      buffer_address    chan1;          //   output buffer for chan0/1
-      void*             chan0_context;  // context for the buffer_address functions
-      void*             chan1_context;  // one per buffer
+      buffer_address    buffer_get;     // return the address of the next 
+      void*             context;        // context for the buffer_address functions
       double            timeout;        // in sec; -1 = infinite     
       int               frm_siz;        // numbr of data points per one frame
       int               frm_tot;        // total number of frm to fetch, per channels all chans one acq

@@ -9,7 +9,7 @@ name = 'rb_scope'
   end
 
   task :gem_install => :gem_build do
-    gemfile = Dir.new("./").entries.select{ |f| f =~ /rb_scope-[\d]+\.[\d]+\.[\d]+.gem/ }[0]
+    gemfile = Dir.new("./").entries.select{ |f| f =~ /rb_scope-[\d]+\.[\d]+\.[\d]+.gem/ }.sort[-1]
     sh "gem install %s" % gemfile
   end
 
@@ -46,7 +46,7 @@ end
   task :set_path do
     puts "you might need to run the command prompt as Administrator"
     #ask for VC env var batch script
-      sh '"C:\Program Files (x86)\MVS10.0\VC\vcvarsall.bat"'
+      #sh '"C:\Program Files (x86)\MVS10.0\VC\vcvarsall.bat"'
       #ask for path to niScope.h
       #ask for path to ivi.h and visa.h
       path_include = '"C:\Program Files (x86)\IVI Foundation\VISA\WinNT\include"'
