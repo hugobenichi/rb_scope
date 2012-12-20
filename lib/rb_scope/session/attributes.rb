@@ -1,78 +1,67 @@
 module RbScope
 
-  class Session 
-  
-    Attribute_Types = {
-      int:      "Int32",
-      int32:    "Int32",     
-      bool:     "Boolean",
-      uint16:   "Boolean",
-      boolean:  "Boolean",     
-      real64:   "Real64",
-      double:   "Real64",
-      float:    "Real64",
-      string:   "String",
-      pchar:    "String"
-    }
+    class Session 
 
-    Pointer_Types = [
-      int:      :int32,
-      int32:    :int32,     
-      bool:     :uint16,
-      uint16:   :uint16,
-      boolean:  :uint16,     
-      real64:   :double,
-      double:   :double,
-      float:    :double,
-      string:   :string,
-      pchar:    :string
-    ]
-    
-    # gives the actual lengtt of one measured frame
-    def actual_points
-      p = FFI::MemoryPointer.new :int32, 1
-      check API::rbScope_ActualRecordLength( @visa_id, p)
-      p.read_int32
-    end
+        class << self; attr_reader :attribute_types, :pointer_types end
 
-    # gives the actual number of recorded waveform
-    def actual_records chan = "0,1"
-      p = FFI::MemoryPointer.new :int32, 1
-      check API::rbScope_ActualNumWfms( @visa_id, chan, p)
-      p.read_int32    
-    end
-    
-    # attributes getter
-    def [] attrb_name = nil, attrb_type = nil
-      if attrb_name && attrb_type
-        getter   = "rbScope_GetAttributeVi%s" % Attribute_Types[attrb_type]
-        attrb_id = API::Values.const_get "NISCOPE_ATTR_#{attrb_name}".to_sym
-        store_t = Pointer_Types[attrb_type]
-        store   = FFI::MemoryPointer.new store_t, case store_t
-          when :string then 128
-          when :double then 2
-          else 1
+        def with_int_p &block
+            FFI::MemoryPointer.new(:int32, 1).tap{|p| block.call(p) }.read_int32
         end
-        check API.send setter, @visa_id, nil, attrb_name, store      
-        case store_t
-          when :int32  then store.read_int32
-          when :uint16 then store.read_uint16
-          when :double then store.read_double
-          when :string then store.read_string 
+
+        # gives the actual length of one measured frame
+        def actual_points
+            with_int_int{|p| check API::rbScope_ActualRecordLength(@visa_id, p) }
         end
-      end
+
+        # gives the actual number of recorded waveform
+        def actual_records chan="0,1"
+            with_int_int{|p| check API::rbScope_ActualNumWfms(@visa_id, chan, p) }
+        end
+
+        # attributes getter TODO: check arity ??
+        def [](attr_name=nil, attr_type=nil)
+            return nil unless attr_name && attr_type
+            getter  = "rbScope_GetAttributeVi%s" % attribute_types[attr_type]
+            attr_id = API::Values.const_get "NISCOPE_ATTR_#{attr_name}".to_sym
+            store_t = pointer_types[attr_type]
+            store_l = ({string: 128, double: 2})[store_t] || 1
+            store   = FFI::MemoryPointer.new store_t, store_l
+            check API.send(getter, @visa_id, nil, attr_id, store)
+            store.send "read_#{store_t}".to_sym
+        end
+
+        # attributes setter
+        def []=(attr_name=nil, attr_type=nil, attr_value)
+            return nil unless attr_name && attr_type
+            setter  = "rbScope_SetAttributeVi%s" % attribute_types[attr_type]
+            attr_id = API::Values.const_get "NISCOPE_ATTR_#{attr_name}".to_sym
+            check API.send(setter, @visa_id, nil, attr_id, attr_value)
+        end
+
+        @attribute_types, @pointer_types = {}, {}
+
+        type_symbols = {
+            int:    ["Int32",   :int32],
+            bool:   ["Boolean", :uint16],
+            real:   ["Real64",  :double],
+            strg:   ["String",  :string],
+        }
+
+        type_aliases = {
+            int:    [:int, :int32],
+            bool:   [:bool, :uint16, :boolean],
+            real:   [:real64, :double, :float],
+            strg:   [:string, :pchar]
+        }
+
+        type_aliases.each{ |type, aliases|
+            ni_name, ffi_name = *type_symbols[type]
+            aliases.each{ |alt|
+                @attribute_types[alt] = ni_name
+                @pointer_types[alt] = ffi_name
+            }
+        }
+
     end
 
-    # attributes setter    
-    def []= attrb_name = nil, attrb_type = nil, attrb_value
-      if attrb_name && attrb_type    
-        setter   = "rbScope_SetAttributeVi#{Attribute_Types[attrb_type]}".to_sym
-        attrb_id = API::Values.const_get "NISCOPE_ATTR_#{attrb_name}".to_sym
-        check API.send setter, @visa_id, nil, attrb_id, attrb_value
-        self
-      end    
-    end
-    
-  end
-  
 end
