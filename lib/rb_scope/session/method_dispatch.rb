@@ -46,7 +46,7 @@ module RbScope
         # if not in params use default
         # if not a symbol use x in place of the value
         def args_chain sign, params
-            [@visa_id] + sign.map{ |x| (params[x]||defaults[x] if x.is_a? Symbol ) || x }
+            [@visa_id] + sign.map{ |x| (params[x]||Session::defaults[x] if x.is_a? Symbol ) || x }
         end
 
         # protects method from name overwrite

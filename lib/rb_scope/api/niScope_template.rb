@@ -8,8 +8,8 @@ module RbScope
             # converts the C signature copied from the header to ffi signature
             def convert_signature symbol, in_type, out_type
                 [ symbol.to_s.sub("niScope", "rbScope").to_sym,
-                  in_type.map{|t| types[:ruby][t] || t }
-                  output_type
+                  in_type.map{|t| types[:ruby][t] || t },
+                  out_type
                 ]
             end
             
