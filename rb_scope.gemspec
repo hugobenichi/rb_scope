@@ -3,8 +3,8 @@
 Gem::Specification.new do |spec|
 
   spec.name        = 'rb_scope'
-  spec.version     = '2.0.5'
-  spec.date        = '2012-12-20'
+  spec.version     = '2.0.6'
+  spec.date        = '2012-12-21'
   spec.summary     = "C2Ruby wrapper to NI-Scope drivers"
   spec.description = "A Ruby layer wrapping around C calls to the NI-Scope drivers based on the ffi gem api"
   spec.authors     = ["Hugo Benichi"]
