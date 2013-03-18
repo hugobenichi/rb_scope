@@ -4,7 +4,7 @@
 #                                                   #
 #  author      hugo benichi                         #
 #  email       hugo[dot]benichi[at]m4x[dot]org      #
-#  copyright   2012 hugo benichi                    #
+#  copyright   2012, 2013 hugo benichi              #
 #                                                   #
 #  description:                                     #
 #   A Ruby layer wrapping around C calls to         #
@@ -16,7 +16,7 @@
 #####################################################
 
 
-# main namespace module which encapsulates 
+# main namespace module which encapsulates
 # the helper methods and wrappring API calls
 module RbScope
 
@@ -27,7 +27,8 @@ module RbScope
         end
     end
 
+    # load all sub-components
     require "ffi"
-    %w{api fetch session}.each{ |mod| require "rb_scope/" + mod }   # load components
+    %w{api fetch session}.each{ |mod| require "rb_scope/" + mod }
 
 end

@@ -12,7 +12,7 @@ module RbScope
                   out_type
                 ]
             end
-            
+
             def ffi_signatures
                 c_signatures.map{|sig| convert_signature *sig}
             end
@@ -46,14 +46,14 @@ module RbScope
         }
 
         # Contains a partial list of the signature of the niScope.h functions
-        # This array is used by rb_scope/api/niScope_api.rb to dynamically 
+        # This array is used by rb_scope/api/niScope_api.rb to dynamically
         # attach the niScope function to Ruby
         # It is also used by ext/rb_scope/generators/wrapper_generator
         # to construct a statically linked dll that Ruby::FFI can link to
         @c_signatures =  [
 
               [:niScope_init,
-                [ :p_char,                      # device address(char*) 
+                [ :p_char,                      # device address(char*)
                   :uint16,                      # perform an Id query ?
                   :uint16,                      # reset device ?
                   :p_uint32                     # pointer to session id (uint32*)
@@ -61,14 +61,14 @@ module RbScope
                 :int32 ],
 
               [:niScope_close,
-                [ :uint32],                     # session id 
+                [ :uint32],                     # session id
                 :int32],
 
               [:niScope_CalSelfCalibrate,
                 [ :uint32,                      # session id
                   :p_char,                      # channel list (const char*)
                   :int32                        # option (VI_NULL for normal self-cal)
-                ], 
+                ],
                  :int32],
 
               [:niScope_ConfigureAcquisition,
@@ -76,9 +76,9 @@ module RbScope
                   :int32                        # acq type (NISCOPE_VAL_NORMAL)
                 ],
                 :int32],
-                
+
               [:niScope_ConfigureTriggerDigital,
-                [ :uint32,                      # session id 
+                [ :uint32,                      # session id
                   :p_char,                      # trig src (const char*) NISCOPE_VAL_EXTERNAL
                   :int32,                       # slope (rising or falling edge) NISCOPE_VAL_POSITIVE
                   :double,                      # holdoff (dead time)
@@ -87,7 +87,7 @@ module RbScope
                 :int32],
 
               [:niScope_ConfigureTriggerEdge,
-                [ :uint32,                      # session id  
+                [ :uint32,                      # session id
                   :p_char,                      # trig src (const char*) NISCOPE_VAL_EXTERNAL
                   :double,                      # voltage value
                   :int32,                       # slope (rising or falling) NISCOPE_VAL_POSITIVE
@@ -98,11 +98,11 @@ module RbScope
                 :int32],
 
               [:niScope_ConfigureTriggerImmediate,
-                [ :uint32],                     # session id 
+                [ :uint32],                     # session id
                 :int32],
 
               [:niScope_ConfigureChanCharacteristics,
-                [ :uint32,                      # session id  
+                [ :uint32,                      # session id
                   :p_char,                      # channel list (const char*)
                   :double,                      # input impedance (50 / 1000000)
                   :double                       # bandwidth
@@ -110,7 +110,7 @@ module RbScope
                 :int32],
 
               [:niScope_ConfigureVertical,
-                [ :uint32,                      # session id  
+                [ :uint32,                      # session id
                   :p_char,                      # channel list (const char*)
                   :double,                      # voltage range
                   :double,                      # voltage offset (0.0)
@@ -121,23 +121,23 @@ module RbScope
                 :int32],
 
               [:niScope_ConfigureHorizontalTiming,
-                [ :uint32,                      # session id  
+                [ :uint32,                      # session id
                   :double,                      # sample rate
                   :int32,                       # num pts per frame
-                  :double,                      # reference event position as a % 
+                  :double,                      # reference event position as a %
                   :int32,                       # num record (# of frames)
                   :uint16                       # real_time (VI_TRUE)
                 ],
                 :int32],
 
               [:niScope_ActualRecordLength,
-                [ :uint32,                      # session id  
+                [ :uint32,                      # session id
                   :p_int32,                     # output val (int*)
                 ],
                 :int32],
 
               [:niScope_ActualNumWfms,
-                [ :uint32,                      # session id  
+                [ :uint32,                      # session id
                   :p_char,                      # channel list (const char*)
                   :p_int32                      # output val (int32*)
                 ],
@@ -251,7 +251,7 @@ module RbScope
                   :int32,                       # numSamples to fetch (-1 fetch all)
                   :p_char,                      # pointer to buffer (signed int8*)
                   :pointer,                     # timing info (struct niScope_wfmInfo*)
-                ],  
+                ],
                 :int32],
 
               [:niScope_FetchBinary16,
@@ -272,6 +272,6 @@ module RbScope
 
         ]
 
-    end # end of Api
+    end
 
-end # end of RbScope
+end

@@ -14,17 +14,19 @@ module RbScope
             ffi_signatures.each{ |sig| attach_function *sig }
         rescue
             RbScope::prompt "could not load rb_scope.dll library"
+            Kernel.exit -1
         end
 
         class << self
             def handle_error address, visa_id, err_code, &block
-                buf1 = FFI::MemoryPointer.new :char, 1024   # TODO: add some way to clean this
-                buf2 = FFI::MemoryPointer.new :char, 1024   # buffer or is it handled by FFI ?
+                buf1 = FFI::MemoryPointer.new :char, 1024
+                buf2 = FFI::MemoryPointer.new :char, 1024
                 rbScope_errorHandler(visa_id, err_code, buf1, buf2)
-                puts  "RbScope error for session id %s / address %i:" % [address, visa_id],
+                puts  "RbScope error",
+                      "  session %s / %i:" % [address, visa_id],
                       "  source:  %s" % buf1.read_string(),
                       "  message: %s" % buf2.read_string()
-                #abord acquisition 
+                #abord acquisition
                 #close ses
                 block.call if block
             end
