@@ -1,69 +1,72 @@
-##
- #              rb_scope
- #
- #     ( C2Ruby wrapper to NI-Scope drivers )
- #    
- #  version     2.0.4
- #  author      hugo benichi
- #  email       hugo.benichi@m4x.org
- #  copyright   2012 hugo benichi
- #  
- #  reproduction 
- #  
- #    You can use this code without restriction if you mention my name in your project.
- #    Other than that, you can redistribute and/or modify without restriction.
- #  
- #  description 
- #  
- #    A Ruby layer wrapping around C calls to the NI-Scope drivers.
- #    Most C data manipulation and C calls are done through the FFI gems.
- #	  In addition a few C methods are provided for improved efficiency when handling data
- #
- #  installation
- #
- #    gem install ni_scope-x.y.z.gem
- #
- #  usage
- #
- #    refer to rb_scope/test/test_rb_scope.rb
- #
- #  binaries
- #    
- #    the gem comes with precompiled 32bits libraries which should run on
- #    Windows 32/64 bits without issues if your niScope drivers are
- #    installed correctly
- #
- #    If necessary, the source files and script files to produce the binaries
- #    are included with this gem, in rb_scope/ext/
- #
- #    Two binary dlls are required 
- #    Because of a recent change in the NiScope drivers, it is now necesaary to use
- #    MSVS cl and link to compiles them (it should be theoretically possible with mingw
- #    but I have better things to do). To be able to compile the project on your PC
- #    you should install Visual Studio C++ Express and use the VS developper prompt
- #    which automatically configures your %PATH% variable and allows you to use MSVS
- #    compiler and linker.
- #
- #    If everything is fine you can just compile fetch.dll and rb_scope.dll with rake
- #    Run at the gem root directory the commands
- #      rake dll_fetch
- #      rake dll_rb_scope
- #    
- #    My scripts assume that you have a normal NiScope driver installation when looking 
- #    for header files from NI. In the event these hardcoded paths are not correct, you
- #    should edit rakefile.rb and provides paths to headers and to static libraries .lib
- #
- #    Expected path of the necessary header files and library:
- #
- #     niScope.h, ivi.h, iviScope.h
- #       C:\Program Files (x86)\IVI Foundation\IVI\Include
- #
- #     visa.h, visatype.h, vpptype.h
- #       C:\Program Files (x86)\IVI Foundation\VISA\WinNT\include
- #
- #     niScope.lib
- #       C:\Program Files (x86)\IVI Foundation\IVI\Lib\msc
- #       C:\Program Files (x86)\IVI Foundation\IVI\Lib_x64\msc
- #       C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Lib\msc
- #       C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Lib_x64\msc
- #
+                Rb_Scope
+
+    C2Ruby wrapper over NI-Scope drivers
+
+    version     2.0.7
+    author      hugo benichi
+    email       hugo [dot] benichi [at] m4x [dot] org
+    copyright   2012,2013 hugo benichi
+
+    Description
+
+      A Ruby layer wrapping C calls to the NI-Scope drivers.
+      Most C data manipulation and C calls are done through the FFI gems.
+  	  In addition a few C methods are provided for improved efficiency
+      when handling data
+
+    Installation
+
+      run at the gem root directory
+        $ gem install ni_scope-x.y.z.gem
+
+      or use the rake command:
+        $ rake gem_install
+
+    Usage
+
+      refer to example code rb_scope/test/test_rb_scope.rb
+
+    Binaries
+
+      the gem comes with precompiled 32bits libraries which should run on
+      Windows 32/64 bits without issues if your niScope drivers are
+      installed correctly.
+
+      If necessary, the source files and script files to produce the binaries
+      are included with this gem, in rb_scope/ext/
+
+      Two binary dlls are required.
+
+      Because of a recent change in the NiScope drivers, it is now necessary
+      to use MSVS cl and link program to compiles these two binaries (it should
+      be theoretically possible with mingw).
+
+      To be able to compile them on your PC you should install Visual Studio
+      C++ Express and use the VS developper prompt which automatically
+      configures your %PATH% variable and allows you to use MSVS compiler
+      and linker.
+
+      If everything is fine you can just compile fetch.dll and rb_scope.dll
+      using rake: run at the gem root directory the commands
+        $ rake dll_fetch
+        $ rake dll_rb_scope
+
+      The install scripts assume that you have a normal NiScope driver
+      installation on yoru system when looking for header files from NI.
+      In the event these hardcoded paths are not correct, you should edit
+      rakefile.rb and provides paths to headers and to static libraries .lib
+
+      Expected path of the necessary header files and library:
+
+       niScope.h, ivi.h, iviScope.h
+         C:\Program Files (x86)\IVI Foundation\IVI\Include
+
+       visa.h, visatype.h, vpptype.h
+         C:\Program Files (x86)\IVI Foundation\VISA\WinNT\include
+
+       niScope.lib
+         C:\Program Files (x86)\IVI Foundation\IVI\Lib\msc
+         C:\Program Files (x86)\IVI Foundation\IVI\Lib_x64\msc
+         C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Lib\msc
+         C:\Program Files (x86)\IVI Foundation\VISA\WinNT\Lib_x64\msc
+
