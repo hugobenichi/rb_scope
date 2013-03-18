@@ -1,12 +1,11 @@
 #!/bin/bash
-#  
+#
 # This script takes into input the path to the ivi and niScope headers
 # on the local machine, and use them to generate a text file of pairs
 # name / values.
 #
-# This script is meant to be used in a Unix environment 
+# This script is meant to be used in a Unix environment
 # (for example cygwin on windows)
-#
 
 path_to_headers=$1
 
