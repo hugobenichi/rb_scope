@@ -4,7 +4,7 @@
  *
  *   software: ni_scope gem
  *   author: hugo benichi
- *   contact: hugo.benichi@m4x.org
+ *   contact: hugo [dot] benichi [at] m4x [dot] org
  *
  */
 

@@ -28,26 +28,24 @@ module RbScope
       end
 
       def self.source_core
-        RbScope::API::c_signatures.map do |sig|
-          i = 0
+        ctypes = RbScope::API::types[:c]
 
-          args_chain_decla, args_chain_invoc = *sig[1].map{ |type|
-            ctype = RbScope::API::types[:c][type] || type.to_s
-            arg   = "arg#{i+=1}"
-            [ "%s %s" % [ctype, arg], arg ]
-          }.transpose.map{ |chain| chain.join ", "}
+        RbScope::API::c_signatures.map do |sig|
+
+          args_types = sig[1].map{ |type| ctypes[type] || type.to_s }
+          args_names = 1.upto(sig[1].length).map { |i| "arg#{i}" }
 
           "DLL %s %s(%s)\n{\n  return %s(%s);\n}\n\n" % [
             (RbScope::API::types[:c][sig[2]] || sig[2].to_s),
             sig[0].to_s.sub("niScope", "rbScope"),
-            args_chain_decla,
+            args_types.zip(args_names).map{|s| s.join " "}.join(", "),
             sig[0].to_s,
-            args_chain_invoc
+            args_names.join(", ")
           ]
 
         end
-      end
 
+      end
 
       def self.build file_name=nil
         output = file_name ? File.open(file_name, 'w') : $stdout
